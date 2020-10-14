@@ -3,15 +3,13 @@ Dağıtık sistemler Odev01
 Ali Kaan Özden 16401781
 
 """
+import sys
 
-while True:
-    try:
-        soru_sayisi = input("Kaç tane soru sorulsun? ")
-        soru_sayisi_int = int(soru_sayisi)
-        break
-    except:
-        print("lütfen tam sayı giriniz. \n")
-        continue
+try:
+    soru_sayisi_int = int(sys.argv[1])
+except:
+    print("lütfen kodu çalıştırırken soru sayısını arguman olarak ekleyiniz ve tam sayı giriniz. \n")
+    exit(-1)
 
 
 i = 0
