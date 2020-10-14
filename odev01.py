@@ -7,6 +7,8 @@ import sys
 
 try:
     soru_sayisi_int = int(sys.argv[1])
+
+    
 except:
     print("lütfen kodu çalıştırırken soru sayısını arguman olarak ekleyiniz ve tam sayı giriniz. \n")
     exit(-1)
