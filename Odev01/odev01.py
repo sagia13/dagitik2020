@@ -56,7 +56,6 @@ while i != soru_sayisi_int:
     
     try :
         soyisim = int(input_listesi[-1])
-        print("çalıştı")
         flag = 1
         continue
     except:
