@@ -11,7 +11,7 @@ while True:
     user = input()
     s.send(user.encode())
     print(s.recv(1024).decode())
-    if user == "Kapan":
+    if user == "QUI":
         break
 
 s.close()
