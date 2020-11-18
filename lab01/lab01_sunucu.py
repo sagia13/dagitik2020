@@ -1,9 +1,11 @@
 import socket
 import sys
 import threading
-
-from typing import Counter
 import random
+
+'''Ali Kaan Özden
+    Kod tekrarı fazlasıyla bulunmaktadır. Fonksiyon yazmayı başta akıl edemedim. Okurken Allah kolaylık versin.
+'''
 
 class connThread(threading.Thread):
     def __init__(self, threadID, conn, c_addr):
@@ -47,6 +49,8 @@ class connThread(threading.Thread):
                             self.conn.send("BYE\n".encode())
                             quit_flag = True
                             break
+                        elif guess_list[0] == "TIC":
+                            self.conn.send("TOC\n".encode()) 
                         else:
                             self.conn.send("ERR\n".encode())
                     
@@ -76,6 +80,8 @@ class connThread(threading.Thread):
                                         self.conn.send("BYE\n".encode())
                                         quit_flag = True
                                         break
+                                    elif guess_list[0] == "TIC":
+                                        self.conn.send("TOC\n".encode()) 
                                     else:
                                         self.conn.send("ERR\n".encode())
                             
@@ -105,6 +111,8 @@ class connThread(threading.Thread):
                                     self.conn.send("BYE\n".encode())
                                     quit_flag = True
                                     break
+                                elif guess_list[0] == "TIC":
+                                    self.conn.send("TOC\n".encode()) 
                                 else:
                                     self.conn.send("ERR\n".encode())
                                     rdy_flag = True
@@ -133,6 +141,8 @@ class connThread(threading.Thread):
                                     self.conn.send("BYE\n".encode())
                                     quit_flag = True
                                     break
+                                elif guess_list[0] == "TOC":
+                                    self.conn.send("TOC\n".encode())
                                 else:
                                     self.conn.send("ERR\n".encode())
                                     rdy_flag = True
