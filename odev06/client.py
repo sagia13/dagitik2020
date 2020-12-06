@@ -5,7 +5,7 @@ from PyQt5 import QtWidgets, QtCore
 
 import sys
 import socket
-import time
+from datetime import datetime
 import threading
 import queue
 
@@ -21,44 +21,47 @@ class rThread(threading.Thread):
         print(self.tName, "Starting.")
         while True:
             data = self.servSock.recv(1024)
-            self.uQueue.put(data.decode())
+            #self.uQueue.put(data.decode())
             self.incoming_parser(data.decode())
-            # print(data.decode())
-        print(self.tName, "Exiting.")
+            if data.decode().strip() == "BYE":
+                print(self.tName, "Exiting.")
+                break
 
     def incoming_parser(self, data):
         msg = data.strip().split(" ")
         print(len(msg))
         print("Sunucu:", msg)
+        now = datetime.now()
+        current_time = now.strftime("%H:%M:%S")
         if msg[0] == "\x00":
             pass
         elif msg[0] == "WEL":
-            self.uQueue.put("Sunucu hosgeldiniz diyor")
+            self.uQueue.put(current_time + " " +"Sunucu hosgeldiniz diyor")
         elif msg[0] == "REJ":
-            self.uQueue.put("Sunucu ismini begenmedi")
+            self.uQueue.put(current_time + " " +"Sunucu ismini begenmedi")
         elif msg[0] == "BYE":
-            self.uQueue.put("Sunucu gule gule dedi")
+            self.uQueue.put(current_time + " " +"Sunucu gule gule dedi")
         elif msg[0] == "LST":
-            self.uQueue.put("Liste:", msg[1].replace(":",", "))
+            self.uQueue.put(current_time + " " +"Liste:", msg[1].replace(":",", "))
         elif msg[0] == "NOP":
-            self.uQueue.put("Kullanici %s bulunamadi" % msg[1])
+            self.uQueue.put(current_time + " " +"Kullanici %s bulunamadi" % msg[1])
         elif msg[0] == "ERR":
-            self.uQueue.put("Hatali protokol mesaji")
+            self.uQueue.put(current_time + " " +"Hatali protokol mesaji")
         elif msg[0] == "LRR":
-            self.uQueue.put("Once bir kendinizi tanitin")
+            self.uQueue.put(current_time + " " +"Once bir kendinizi tanitin")
         elif msg[0] == "PRV":
             prvmsg = msg[1].split(":")
             msgtoshow = " ".join(prvmsg[1:])
-            self.uQueue.put("*%s*: %s" % (prvmsg[0],msgtoshow))
+            self.uQueue.put(current_time + " " +"*%s*: %s" % (prvmsg[0],msgtoshow))
             self.wQueue.put("OKP\n")
         elif msg[0] == "GNL":
             gnlmsg = msg[1].split(":")
             msgtoshow = " ".join(gnlmsg[1:])
-            self.uQueue.put("<%s>: %s" % (gnlmsg[0], msgtoshow))
+            self.uQueue.put(current_time + " " +"<%s>: %s" % (gnlmsg[0], msgtoshow))
             self.wQueue.put("OKG\n")
         elif msg[0] == "WRN":
             msgtoshow = " ".join(msg[1:])
-            self.uQueue.put("-Sistem-: %s" % msgtoshow)
+            self.uQueue.put(current_time + " " +"-Sistem-: %s" % msgtoshow)
             self.wQueue.put("OKW\n")
         elif msg[0] == "TIN":
             self.wQueue.put("TON\n")
@@ -81,7 +84,9 @@ class wThread(threading.Thread):
             data = self.wQueue.get()
             print("Istemci", data)
             self.servSock.send(data.encode())
-        print(self.tName, "Exiting.")
+            if data == "QUI\n":
+                print(self.tName, "Exiting.")
+                break
 
 class client_dialog(QtWidgets.QDialog):
     def __init__(self, wQueue, uQueue):
@@ -141,7 +146,7 @@ def main():
     userinterfaceQueue = queue.Queue()
 
     s = socket.socket()
-    # s.bind((ip,port)) # dogru kalmis aklimda, bu istemci icin gecerli degil
+    
     s.connect((ip,port))
 
     app = client_dialog(writeQueue, userinterfaceQueue)
@@ -153,5 +158,11 @@ def main():
 
     app.run()
 
+    readThread.join()
+    writeThread.join()
+    
+    s.close()
+    
+    
 if __name__ == '__main__':
     main()
