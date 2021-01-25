@@ -1,0 +1,22 @@
+REG tux herring
+REJPSW herring
+REG tux 1994
+REGOK tux
+WEL tux
+REG torvalds 1972
+REJPSW torvalds
+LOGIN tux 1984
+BYE tux
+REJ
+LOGIN tux 1994
+WEL tux
+CREATR gentoo
+OKCR gentoo
+ENTER gentoo
+INR
+KICK gentoo torvalds
+NOP
+CREATR ubuntu
+OKCR ubuntu
+ENTER ubuntu
+INR

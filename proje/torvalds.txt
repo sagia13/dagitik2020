@@ -1,0 +1,22 @@
+LOGIN torvalds 1972
+REJ
+REG torvalds 1974
+REGOK torvalds
+WEL torvalds
+RLS
+LSTR gentoo:ubuntu
+GNL gentoo selam
+NAR
+ENTER gentoo
+OKEN
+PRV tux: Beni neden banladın?
+OKP
+ENTER ubuntu
+OKEN
+GLS ubuntu
+LSTU: owner(tux) users: tux torvalds
+GNL ubuntu hey
+ubuntu/torvalds: hey
+OKG
+KICK ubuntu tux
+NOWN ubuntu

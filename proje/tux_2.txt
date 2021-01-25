@@ -1,0 +1,4 @@
+CLSR ubuntu
+NACC
+QUI
+BYEQ
