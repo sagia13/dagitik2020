@@ -1,20 +1,9 @@
 REG kde 2020
-REGOK kde
-WEL kde
 LOGIN kde 2020
-BYE kde
-WEL kde
 RLS
-LSTR gentoo:ubuntu
 ENTER ubuntu
-OKEN
 GLS ubuntu
-LSTU: owner(tux) users: tux torvalds kde
 CREATR plasma
-OKCR plasma
 ENTER plasma
-INR
 RLS
-LSTR gentoo:ubuntu:plasma
 CLSR plasma
-OKCLS plasma
